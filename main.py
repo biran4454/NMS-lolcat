@@ -12,7 +12,7 @@ init_messages = [{"role":"system", "content":"You are a translator that takes an
 examples = [
     {
         "role":"user",
-        "content":"%ITEM% Disengaged <IMG>SLASH<> Beginning sub-orbital flight"
+        "content":'Translate "%ITEM% Disengaged <IMG>SLASH<> Beginning sub-orbital flight"'
     },
     {
         "role":"assistant",
@@ -20,7 +20,7 @@ examples = [
     },
     {
         "role":"user",
-        "content":"No scan technology installed <IMG>SLASH<>"
+        "content":'Translate "No scan technology installed <IMG>SLASH<>"'
     },
     {
         "role":"assistant",
@@ -28,7 +28,7 @@ examples = [
     },
     {
         "role":"user",
-        "content":"Newly discovered %CREATURE%"
+        "content":'Translate "Newly discovered %CREATURE%"'
     },
     {
         "role":"assistant",
@@ -36,7 +36,7 @@ examples = [
     },
     {
         "role":"user",
-        "content":"Empty"
+        "content":'Translate "Empty"'
     },
     {
         "role":"assistant",
@@ -64,8 +64,6 @@ def get_ai_response(msgs, total):
         return ""
     response = get_actual_response(msgs)
     request_count += 1
-    if request_count % 10 == 0:
-        time.sleep(5)
     result = response.choices[0].message.content
     print(result)
     return result
@@ -108,7 +106,7 @@ def translate_entries():
     for entry in entries:
         if "Patch Notes" in entry or "Update" in entry or "@" in entry:
             continue
-        request = init_messages + [{"role":"user", "content":entry}]
+        request = init_messages + [{"role":"user", "content":f'Translate "{entry}"'}]
         translated.append(get_ai_response(request, len(entries)))
         add_to_translated_backup(translated[-1])
     return translated
